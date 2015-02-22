@@ -135,7 +135,7 @@ int epos_device_open(epos_device_t* dev) {
   error_clear(&dev->error);
   
   if (!can_device_open(dev->can_dev)) {
-    if (dev->reset && epos_device_reset(dev))
+    if (dev->reset && epos_device_reset(dev) && epos_device_reset(dev))
       return dev->error.code;
 
     dev->node_id = epos_device_get_id(dev);
@@ -195,14 +195,14 @@ int epos_device_receive_message(epos_device_t* dev, can_message_t* message) {
 
       memcpy(&code, &message->content[0], sizeof(code));
       if (code)
-        error_setf(&dev->error, EPOS_DEVICE_ERROR_INTERNAL, "[0x%hX] %s",
+        error_setf(&dev->error, EPOS_DEVICE_ERROR_INTERNAL, "[Node 0x%hX]: 0x%hX %s",
           message->id-CAN_COB_ID_SDO_EMERGENCY, code, epos_error_device(code));
     }
     else if (message->content[0] == CAN_CMD_SDO_ABORT) {
       int code;
 
       memcpy(&code, &message->content[4], sizeof(code));
-      error_setf(&dev->error, EPOS_DEVICE_ERROR_ABORT, "[0x%hX] %s",
+      error_setf(&dev->error, EPOS_DEVICE_ERROR_ABORT, "[Node 0x%hX]: 0x%X %s",
         message->id-CAN_COB_ID_SDO_RECEIVE, code, epos_error_comm(code));
     }
   }

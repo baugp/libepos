@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   epos_node_connect(&node);
   error_exit(&node.error);
   
-  epos_velocity_init(&velocity, target_value);
+  epos_velocity_init(&velocity, deg_to_rad(target_value));
   epos_velocity_start(&node, &velocity);
   error_exit(&node.dev.error);
   

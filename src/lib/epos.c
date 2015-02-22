@@ -199,18 +199,18 @@ void epos_node_init_components(epos_node_t* node, can_device_t* can_dev) {
     config_get_int(&node->config, EPOS_PARAMETER_DEVICE_NODE_ID),
     config_get_bool(&node->config, EPOS_PARAMETER_DEVICE_RESET));
   epos_sensor_init(&node->sensor, &node->dev,
-    config_get_int(&node->config, EPOS_PARAMETER_SENSOR_TYPE),
-    config_get_int(&node->config, EPOS_PARAMETER_SENSOR_POLARITY),
+    config_get_enum(&node->config, EPOS_PARAMETER_SENSOR_TYPE),
+    config_get_enum(&node->config, EPOS_PARAMETER_SENSOR_POLARITY),
     config_get_int(&node->config, EPOS_PARAMETER_SENSOR_PULSES),
-    config_get_int(&node->config, EPOS_PARAMETER_SENSOR_SUPERVISION));
+    config_get_enum(&node->config, EPOS_PARAMETER_SENSOR_SUPERVISION));
   epos_motor_init(&node->motor, &node->dev,
-    config_get_int(&node->config, EPOS_PARAMETER_MOTOR_TYPE),
+    config_get_enum(&node->config, EPOS_PARAMETER_MOTOR_TYPE),
     config_get_float(&node->config, EPOS_PARAMETER_MOTOR_CURRENT));
   epos_gear_init(&node->gear, &node->sensor,
     config_get_float(&node->config, EPOS_PARAMETER_GEAR_TRANSMISSION));
   epos_input_init(&node->input, &node->dev);
   epos_control_init(&node->control, &node->dev,
-    config_get_int(&node->config, EPOS_PARAMETER_CONTROL_MODE));
+    config_get_enum(&node->config, EPOS_PARAMETER_CONTROL_MODE));
 }
 
 void epos_node_destroy(epos_node_t* node) {
@@ -294,14 +294,14 @@ int epos_node_home(epos_node_t* node, double timeout) {
   error_clear(&node->error);
   
   epos_home_init(&home,
-    config_get_int(&node->config, EPOS_PARAMETER_HOME_METHOD),
+    config_get_enum(&node->config, EPOS_PARAMETER_HOME_METHOD),
     config_get_float(&node->config, EPOS_PARAMETER_HOME_CURRENT),
     deg_to_rad(config_get_float(&node->config, EPOS_PARAMETER_HOME_VELOCITY)),
     deg_to_rad(config_get_float(&node->config, 
       EPOS_PARAMETER_HOME_ACCELERATION)),
     deg_to_rad(config_get_float(&node->config, EPOS_PARAMETER_HOME_POSITION)));
   
-  home.type = config_get_int(&node->config, EPOS_PARAMETER_HOME_TYPE);
+  home.type = config_get_enum(&node->config, EPOS_PARAMETER_HOME_TYPE);
   home.offset = deg_to_rad(config_get_float(&node->config, 
     EPOS_PARAMETER_HOME_OFFSET));
 

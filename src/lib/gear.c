@@ -40,7 +40,7 @@ float epos_gear_to_angle(const epos_gear_t* gear, int position) {
 }
 
 int epos_gear_from_angle(const epos_gear_t* gear, float angle) {
-  return clip(angle*4.0*gear->sensor->num_pulses*gear->transmission/(2.0*M_PI),
+  return clip(roundf(angle*4.0*gear->sensor->num_pulses*gear->transmission/(2.0*M_PI)),
     INT_MIN, INT_MAX);
 }
 
@@ -50,7 +50,7 @@ float epos_gear_to_angular_velocity(const epos_gear_t* gear, int velocity) {
 
 int epos_gear_from_angular_velocity(const epos_gear_t* gear, float
     angular_vel) {
-  return clip(angular_vel*60.0*gear->transmission/(2.0*M_PI),
+  return clip(roundf(angular_vel*60.0*gear->transmission/(2.0*M_PI)),
     INT_MIN, INT_MAX);
 }
 
@@ -61,6 +61,6 @@ float epos_gear_to_angular_acceleration(const epos_gear_t* gear, int
 
 int epos_gear_from_angular_acceleration(const epos_gear_t* gear, float
     angular_acc) {
-  return clip(angular_acc*60.0*abs(gear->transmission)/(2.0*M_PI), 
+  return clip(roundf(angular_acc*60.0*abs(gear->transmission)/(2.0*M_PI)),
     INT_MIN, INT_MAX);
 }
