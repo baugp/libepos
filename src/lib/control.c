@@ -81,5 +81,10 @@ int epos_control_start(epos_control_t* control) {
 
 int epos_control_stop(epos_control_t* control) {
   return epos_device_set_control(control->dev,
+    EPOS_DEVICE_CONTROL_DISABLE_OPERATION);
+}
+
+int epos_control_quickstop(epos_control_t* control) {
+  return epos_device_set_control(control->dev,
     EPOS_DEVICE_CONTROL_QUICK_STOP);
 }

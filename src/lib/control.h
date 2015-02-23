@@ -112,4 +112,11 @@ int epos_control_start(
 int epos_control_stop(
   epos_control_t* control);
 
+/** \brief Quickstop EPOS controller
+  * \param[in] control The EPOS controller to be quickstopped.
+  * \return The resulting device error code.
+  */
+int epos_control_quickstop(
+  epos_control_t* control);
+
 #endif

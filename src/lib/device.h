@@ -73,6 +73,17 @@
 #define EPOS_DEVICE_CONTROL_FAULT_RESET         0x0080
 //@}
 
+/** \name NMT Command Specifiers
+  * \brief Predefined EPOS device NMT Command Specifiers
+  */
+//@{
+#define EPOS_DEVICE_NMT_CS_START_REMOTE_NODE        0x01
+#define EPOS_DEVICE_NMT_CS_STOP_REMOTE_NODE         0x02
+#define EPOS_DEVICE_NMT_CS_ENTER_PRE_OPERATIONAL    0x80
+#define EPOS_DEVICE_NMT_CS_RESET_NODE               0x81
+#define EPOS_DEVICE_NMT_CS_RESET_COMMUNICATION      0x82
+//@}
+
 /** \brief Predefined EPOS device type mask
   */
 #define EPOS_DEVICE_TYPE_MASK                   0xFFF0
@@ -241,6 +252,15 @@ int epos_device_write(
   unsigned char* data,
   size_t num);
 
+/** \brief Send NMT frame
+  * \param[in] dev The EPOS device the NMT frame will be sent to.
+  * \param[in] cmd The NMT command specifier.
+  * \return The number of bytes sent or the negative error code.
+  */
+int epos_device_send_nmt(
+  epos_device_t* dev,
+  unsigned short cmd);
+
 /** \brief Store persistent parameters on an EPOS device
   * \param[in] dev The EPOS device to store the parameters on.
   * \return The resulting error code.
@@ -397,11 +417,26 @@ unsigned char epos_device_get_error(
 int epos_device_shutdown(
   epos_device_t* dev);
 
-/** \brief Reset EPOS device in fault state
+/** \brief Change the device state from “fault” to “disable” and clear errors
+  * \param[in] dev The EPOS device to be cleared.
+  * \return The resulting error code.
+  */
+int epos_device_clear_fault(
+  epos_device_t* dev);
+
+/** \brief Generates a general reset of EPOS2 software having same effect as
+ *    turning off and on the supply voltage.
   * \param[in] dev The EPOS device to be reset.
   * \return The resulting error code.
   */
 int epos_device_reset(
+  epos_device_t* dev);
+
+/** \brief Reset communication
+  * \param[in] dev The EPOS device to be reset.
+  * \return The resulting error code.
+  */
+int epos_device_reset_communication(
   epos_device_t* dev);
 
 #endif

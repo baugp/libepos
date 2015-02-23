@@ -135,8 +135,15 @@ int epos_device_open(epos_device_t* dev) {
   error_clear(&dev->error);
   
   if (!can_device_open(dev->can_dev)) {
-    if (dev->reset && epos_device_reset(dev) && epos_device_reset(dev))
-      return dev->error.code;
+    if(dev->reset) {
+      //if an id is known, hard reset that device
+//      if(dev->node_id > 0) {
+//        epos_device_reset(dev);
+//        usleep(300000);
+      //try to clear fault for unknown device id
+      epos_device_reset_communication(dev); //handle previous comm error
+      epos_device_clear_fault(dev);
+    }
 
     dev->node_id = epos_device_get_id(dev);
     error_return(&dev->error);
@@ -299,6 +306,25 @@ int epos_device_write(epos_device_t* dev, short index, unsigned char subindex,
   }
 
   return num_written;
+}
+
+int epos_device_send_nmt(epos_device_t *dev, unsigned short cmd) {
+  can_message_t message;
+
+  error_clear(&dev->error);
+
+  message.id = CAN_COB_NMT_SEND;
+  message.content[0] = cmd;
+  message.content[1] = dev->node_id;
+  message.length = 2;
+
+  if (epos_device_send_message(dev, &message) ||
+      epos_device_receive_message(dev, &message))
+    return -dev->error.code;
+
+  ++dev->num_written;
+
+  return 1; //num_written;
 }
 
 int epos_device_store_parameters(epos_device_t* dev) {
@@ -474,6 +500,18 @@ int epos_device_shutdown(epos_device_t* dev) {
   return epos_device_set_control(dev, EPOS_DEVICE_CONTROL_SHUTDOWN);
 }
 
-int epos_device_reset(epos_device_t* dev) {
-  return epos_device_set_control(dev, EPOS_DEVICE_CONTROL_FAULT_RESET);
+int epos_device_clear_fault(epos_device_t* dev) {
+  if (!epos_device_set_control(dev, EPOS_DEVICE_CONTROL_FAULT_RESET))
+    return dev->error.code;
+  return epos_error_clear_history(dev);
+}
+
+int epos_device_reset(epos_device_t *dev) {
+  epos_device_send_nmt(dev, EPOS_DEVICE_NMT_CS_RESET_NODE);
+  return dev->error.code;
+}
+
+int epos_device_reset_communication(epos_device_t *dev) {
+  epos_device_send_nmt(dev, EPOS_DEVICE_NMT_CS_RESET_COMMUNICATION);
+  return dev->error.code;
 }
