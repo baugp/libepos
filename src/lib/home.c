@@ -38,6 +38,7 @@ char epos_home_methods[] = {
   -4,
   34,
   33,
+  35,
 };
 
 void epos_home_init(epos_home_t* home, epos_home_method_t method, float

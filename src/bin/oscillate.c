@@ -46,7 +46,7 @@ config_param_t epos_oscillate_default_arguments_params[] = {
   {EPOS_OSCILLATE_PARAMETER_VELOCITY,
     config_param_type_float,
     "",
-    "(-inf, inf)",
+    "[0.0, inf)",
     "The demanded maximum angular velocity in [deg/s]"},
   {EPOS_OSCILLATE_PARAMETER_ACCELERATION,
     config_param_type_float,
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
   float target_value = deg_to_rad(config_get_float(&parser.arguments,
     EPOS_OSCILLATE_PARAMETER_POSITION));
   float velocity = deg_to_rad(config_get_float(&parser.arguments,
-    EPOS_OSCILLATE_PARAMETER_ACCELERATION));
+    EPOS_OSCILLATE_PARAMETER_VELOCITY));
   float acceleration = deg_to_rad(config_get_float(&parser.arguments,
     EPOS_OSCILLATE_PARAMETER_ACCELERATION));
   float deceleration = deg_to_rad(config_get_float(&parser.arguments,

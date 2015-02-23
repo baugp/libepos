@@ -26,7 +26,7 @@
 
 void epos_position_init(epos_position_t* position, float target_value) {
   epos_position_init_limits(position, target_value, -FLT_MAX, FLT_MAX,
-    FLT_MAX);
+    EPOS_POSITION_MAX_FOLLOWING_ERROR_DEFAULT);
 }
 
 void epos_position_init_limits(epos_position_t* position, float target_value,

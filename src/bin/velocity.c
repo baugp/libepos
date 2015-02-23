@@ -62,15 +62,15 @@ int main(int argc, char **argv) {
   epos_node_init_config_parse(&node, &parser, 0, argc, argv,
     config_parser_exit_error);
   
-  float target_value = config_get_float(&parser.arguments,
-    EPOS_VELOCITY_PARAMETER_VELOCITY);
+  float target_value = deg_to_rad(config_get_float(&parser.arguments,
+    EPOS_VELOCITY_PARAMETER_VELOCITY));
   
   signal(SIGINT, epos_signaled);
 
   epos_node_connect(&node);
   error_exit(&node.error);
   
-  epos_velocity_init(&velocity, deg_to_rad(target_value));
+  epos_velocity_init(&velocity, target_value);
   epos_velocity_start(&node, &velocity);
   error_exit(&node.dev.error);
   

@@ -27,6 +27,13 @@
   * \brief EPOS position mode functions
   */
 
+/** \name Constants
+  * \brief Predefined EPOS position control constants
+  */
+//@{
+#define EPOS_POSITION_MAX_FOLLOWING_ERROR_DEFAULT   2000
+//@}
+
 /** \name Object Indexes
   * \brief Predefined EPOS position control object indexes
   */

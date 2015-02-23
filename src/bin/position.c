@@ -62,8 +62,8 @@ int main(int argc, char **argv) {
   epos_node_init_config_parse(&node, &parser, 0, argc, argv,
     config_parser_exit_error);
   
-  float target_value = config_get_float(&parser.arguments,
-    EPOS_POSITION_PARAMETER_POSITION);
+  float target_value = deg_to_rad(config_get_float(&parser.arguments,
+    EPOS_POSITION_PARAMETER_POSITION));
   
   signal(SIGINT, epos_signaled);
 

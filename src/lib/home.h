@@ -87,6 +87,8 @@ typedef enum {
   //!< Index positive speed.
   epos_home_neg_index = 33,
   //!< Index negative speed.
+  epos_home_actual_position = 35,
+  //!< Actual position
 } epos_home_method_t;
 
 /** \brief Structure defining an EPOS homing operation

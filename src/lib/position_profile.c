@@ -176,7 +176,7 @@ int epos_position_profile_set_target(epos_device_t* dev, int position) {
 
 int epos_position_profile_set_velocity(epos_device_t* dev, unsigned int
     velocity) {
-  return epos_device_write(dev, EPOS_POSITION_PROFILE_INDEX_VELOCITY, 0,
+  epos_device_write(dev, EPOS_POSITION_PROFILE_INDEX_VELOCITY, 0,
     (unsigned char*)&velocity, sizeof(unsigned int));
   
   return dev->error.code;

@@ -36,6 +36,8 @@
 #define EPOS_MOTOR_SUBINDEX_MAX_CONTINUOUS_CURRENT    0x01
 #define EPOS_MOTOR_SUBINDEX_MAX_OUTPUT_CURRENT        0x02
 #define EPOS_MOTOR_SUBINDEX_NUM_POLES                 0x03
+#define EPOS_MOTOR_SUBINDEX_MAX_SPEED                 0x04
+#define EPOS_MOTOR_SUBINDEX_THERMAL_TIME_CONSTANT     0x05
 //@}
 
 /** \brief Predefined EPOS motor error descriptions
@@ -63,6 +65,9 @@ typedef struct epos_motor_t {
   float max_out_current;    //!< The motor's output current limit in [A].
 
   short num_poles;          //!< The brushless motor's number of poles.
+
+  float max_speed;          //!< The motor's speed limit in [rad/s].
+  float thermal_time_const; //!< The motor's thermal time constant in [s].
 } epos_motor_t;
 
 /** \brief Initialize EPOS motor
@@ -168,5 +173,42 @@ short epos_motor_get_num_poles(
 int epos_motor_set_num_poles(
   epos_motor_t* motor,
   short num_poles);
+
+/** \brief Retrieve an EPOS motor's speed limit
+  * \param[in] motor The EPOS motor to retrieve the speed limit for.
+  * \return The speed limit of the specified EPOS motor in [vu].
+  *   On error, the return value will be zero and the error code set in
+  *   motor->dev->error.
+  */
+unsigned int epos_motor_get_max_speed(
+  epos_motor_t* motor);
+
+/** \brief Set an EPOS motor's speed limit
+  * \param[in] motor The EPOS motor to set the speed limit for.
+  * \param[in] max_speed The speed limit of the specified EPOS motor in [vu].
+  * \return The resulting device error code.
+  */
+int epos_motor_set_max_speed(
+  epos_motor_t* motor,
+  unsigned int max_speed);
+
+/** \brief Retrieve an EPOS motor's thermal time constant
+  * \param[in] motor The EPOS motor to retrieve the maximum speed for.
+  * \return The thermal time constant of the specified EPOS motor in [100ms].
+  *   On error, the return value will be zero and the error code set in
+  *   motor->dev->error.
+  */
+unsigned short epos_motor_get_thermal_time_constant(
+  epos_motor_t* motor);
+
+/** \brief Set an EPOS motor's thermal time constant
+  * \param[in] motor The EPOS motor to set the speed limit for.
+  * \param[in] time_constant The thermal time constant of the specified
+  *   EPOS motor in [100ms].
+  * \return The resulting device error code.
+  */
+int epos_motor_set_thermal_time_constant(
+  epos_motor_t* motor,
+  unsigned short time_constant);
 
 #endif

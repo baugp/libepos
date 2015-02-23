@@ -57,9 +57,14 @@ int main(int argc, char **argv) {
     error_exit(&node.error);
   
   while (!quit) {
-    if (epos_home_wait(&node, 0.1) != EPOS_DEVICE_ERROR_WAIT_TIMEOUT)
+    int status = epos_home_wait(&node, 0.1);
+    if (status != EPOS_DEVICE_ERROR_WAIT_TIMEOUT)
       error_exit(&node.dev.error);
-  };
+
+    fprintf(stdout, "\rHoming status: %s", status==0?"reached":"homing");
+    fflush(stdout);
+  }
+  fprintf(stdout, "\n");
   
   epos_home_stop(&node);
   error_exit(&node.dev.error);

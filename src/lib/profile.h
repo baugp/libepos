@@ -31,9 +31,12 @@
   * \brief Predefined EPOS profile control object indexes
   */
 //@{
-#define EPOS_PROFILE_INDEX_ACCELERATION       0x6083
-#define EPOS_PROFILE_INDEX_DECELERATION       0x6084
-#define EPOS_PROFILE_INDEX_TYPE               0x6086
+#define EPOS_PROFILE_INDEX_ACCELERATION              0x6083
+#define EPOS_PROFILE_INDEX_DECELERATION              0x6084
+#define EPOS_PROFILE_INDEX_TYPE                      0x6086
+#define EPOS_PROFILE_INDEX_MAX_VELOCITY              0x607F
+#define EPOS_PROFILE_INDEX_MAX_ACCELERATION          0x60C5
+#define EPOS_PROFILE_INDEX_QUICKSTOP_DECELERATION    0x6085
 //@}
 
 /** \name Status Words
@@ -86,6 +89,36 @@ int epos_profile_set_acceleration(
 int epos_profile_set_deceleration(
   epos_device_t* dev,
   unsigned int deceleration);
+
+/** \brief Set the maximum profile velocity of an EPOS device
+  * \param[in] dev The EPOS device to set the maximum profile velocity for.
+  * \param[in] max_velocity The maximum profile velocity for the specified
+  *   EPOS device in [vu].
+  * \return The resulting device error code.
+  */
+int epos_profile_set_max_velocity(
+  epos_device_t* dev,
+  unsigned int max_velocity);
+
+/** \brief Set the maximum acceleration of an EPOS device
+  * \param[in] dev The EPOS device to set the maximum acceleration for.
+  * \param[in] max_acc The maximum acceleration for the specified EPOS device
+  *   in [au].
+  * \return The resulting device error code.
+  */
+int epos_profile_set_max_acceleration(
+  epos_device_t* dev,
+  unsigned int max_acc);
+
+/** \brief Set the quickstop deceleration of an EPOS device
+  * \param[in] dev The EPOS device to set the quickstop deceleration for.
+  * \param[in] quickstop_dec The quickstop deceleration for the specified EPOS device
+  *   in [au].
+  * \return The resulting device error code.
+  */
+int epos_profile_set_quickstop_deceleration(
+  epos_device_t* dev,
+  unsigned int quickstop_dec);
 
 /** \brief Set the motion profile type of an EPOS device
   * \param[in] dev The EPOS device to set the motion profile type for.

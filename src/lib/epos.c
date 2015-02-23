@@ -104,7 +104,7 @@ config_param_t epos_default_params[] = {
     "pos_current_index",
     "neg_switch_index|pos_switch_index|neg_switch|pos_switch|neg_limit_index|"
     "pos_limit_index|neg_limit|pos_limit|pos_current_index|neg_current_index|"
-    "pos_current|neg_current|pos_index|neg_index",
+    "pos_current|neg_current|pos_index|neg_index|actual_position",
     "Homing method applied by the controller as documented by the EPOS "
     "firmware specification"},
   {EPOS_PARAMETER_HOME_TYPE,
@@ -120,24 +120,24 @@ config_param_t epos_default_params[] = {
     "Current threshold used for homing in [A]"},
   {EPOS_PARAMETER_HOME_VELOCITY,
     config_param_type_float,
-    "10.0",
+    "30.0",
     "[0.0, inf)",
-    "Switch and zero search velocity during homing in [rad/s]"},
+    "Switch and zero search velocity during homing in [deg/s]"},
   {EPOS_PARAMETER_HOME_ACCELERATION,
     config_param_type_float,
-    "10.0",
+    "300.0",
     "[0.0, inf)",
-    "Homing acceleration in [rad/s^2]"},
+    "Homing acceleration in [deg/s^2]"},
   {EPOS_PARAMETER_HOME_OFFSET,
     config_param_type_float,
     "0.0",
     "(-inf, inf)",
-    "Home offset from the switch in [rad]"},
+    "Home offset from the switch in [deg]"},
   {EPOS_PARAMETER_HOME_POSITION,
     config_param_type_float,
     "0.0",
     "(-inf, inf)",
-    "Home position in [rad]"},
+    "Home position in [deg]"},
 };
 
 const config_default_t epos_default_config = {

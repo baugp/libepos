@@ -32,7 +32,7 @@ config_param_t epos_current_default_arguments_params[] = {
   {EPOS_CURRENT_PARAMETER_CURRENT,
     config_param_type_float,
     "",
-    "[0.0, inf)",
+    "(-inf, inf)",
     "The demanded motor current in [A]"},
 };
 

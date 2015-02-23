@@ -65,12 +65,12 @@
   * \brief Predefined EPOS device control words
   */
 //@{
-#define EPOS_DEVICE_CONTROL_SWITCH_ON           0x0001
-#define EPOS_DEVICE_CONTROL_ENABLE_VOLTAGE      0x0003
 #define EPOS_DEVICE_CONTROL_SHUTDOWN            0x0006
-#define EPOS_DEVICE_CONTROL_QUICK_STOP          0x0007
+#define EPOS_DEVICE_CONTROL_SWITCH_ON           0x0007
+#define EPOS_DEVICE_CONTROL_QUICK_STOP          0x0002
+#define EPOS_DEVICE_CONTROL_DISABLE_OPERATION   0x0007
 #define EPOS_DEVICE_CONTROL_ENABLE_OPERATION    0x000F
-#define EPOS_DEVICE_CONTROL_FAULT_RESET         0x00FF
+#define EPOS_DEVICE_CONTROL_FAULT_RESET         0x0080
 //@}
 
 /** \brief Predefined EPOS device type mask

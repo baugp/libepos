@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 
+#include "macros.h"
 #include "motor.h"
 
 short epos_motor_types[] = {
@@ -36,6 +37,8 @@ void epos_motor_init(epos_motor_t* motor, epos_device_t* dev,
   motor->max_cont_current = 0.5*max_current;
   motor->max_out_current = max_current;
   motor->num_poles = 1;
+  motor->max_speed = 25000;
+  motor->thermal_time_const = 40;
 }
 
 void epos_motor_destroy(epos_motor_t* motor) {
@@ -127,4 +130,42 @@ int epos_motor_set_num_poles(epos_motor_t* motor, short num_poles) {
     motor->num_poles = num_poles;
 
   return motor->dev->error.code;
+}
+
+
+unsigned int epos_motor_get_max_speed(epos_motor_t *motor) {
+  unsigned int max_speed = 0;
+  epos_device_read(motor->dev, EPOS_MOTOR_INDEX_DATA,
+    EPOS_MOTOR_SUBINDEX_MAX_SPEED, (unsigned char*)&max_speed,
+    sizeof(unsigned int));
+
+  return max_speed;
+}
+
+int epos_motor_set_max_speed(epos_motor_t *motor, unsigned int max_speed) {
+  if (epos_device_write(motor->dev, EPOS_MOTOR_INDEX_DATA,
+    EPOS_MOTOR_SUBINDEX_MAX_SPEED, (unsigned char*)&max_speed,
+      sizeof(short)) > 0)
+    motor->max_speed = 2.0*M_PI*max_speed/60.0;
+
+    return motor->dev->error.code;
+}
+
+unsigned short epos_motor_get_thermal_time_constant(epos_motor_t *motor) {
+  unsigned short time_constant = 0;
+  epos_device_read(motor->dev, EPOS_MOTOR_INDEX_DATA,
+    EPOS_MOTOR_SUBINDEX_MAX_SPEED, (unsigned char*)&time_constant,
+    sizeof(unsigned short));
+
+  return time_constant;
+}
+
+int epos_motor_set_thermal_time_constant(epos_motor_t *motor,
+                                         unsigned short time_constant) {
+  if (epos_device_write(motor->dev, EPOS_MOTOR_INDEX_DATA,
+    EPOS_MOTOR_SUBINDEX_THERMAL_TIME_CONSTANT, (unsigned char*)&time_constant,
+      sizeof(short)) > 0)
+    motor->thermal_time_const = time_constant/10.0;
+
+    return motor->dev->error.code;
 }

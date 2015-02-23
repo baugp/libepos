@@ -43,6 +43,30 @@ int epos_profile_set_deceleration(epos_device_t* dev, unsigned int
   return dev->error.code;
 }
 
+int epos_profile_set_max_velocity(epos_device_t *dev,
+                                  unsigned int max_velocity) {
+  epos_device_write(dev, EPOS_PROFILE_INDEX_MAX_VELOCITY, 0,
+    (unsigned char*)&max_velocity, sizeof(unsigned int));
+
+  return dev->error.code;
+}
+
+int epos_profile_set_max_acceleration(epos_device_t *dev,
+                                      unsigned int max_acc) {
+  epos_device_write(dev, EPOS_PROFILE_INDEX_MAX_ACCELERATION, 0,
+    (unsigned char*)&max_acc, sizeof(unsigned int));
+
+  return dev->error.code;
+}
+
+int epos_profile_set_quickstop_deceleration(epos_device_t *dev,
+                                            unsigned int quickstop_dec) {
+  epos_device_write(dev, EPOS_PROFILE_INDEX_QUICKSTOP_DECELERATION, 0,
+    (unsigned char*)&quickstop_dec, sizeof(unsigned int));
+
+  return dev->error.code;
+}
+
 int epos_profile_set_type(epos_device_t* dev, epos_profile_type_t type) {
   epos_device_write(dev, EPOS_PROFILE_INDEX_TYPE, 0,
     (unsigned char*)&type, sizeof(short));
