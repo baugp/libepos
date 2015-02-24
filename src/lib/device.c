@@ -140,8 +140,11 @@ int epos_device_open(epos_device_t* dev) {
 //      if(dev->node_id > 0) {
 //        epos_device_reset(dev);
 //        usleep(300000);
-      //try to clear fault for unknown device id
-      epos_device_reset_communication(dev); //handle previous comm error
+      //do NMT comm reset to handle previous comm error,
+      // if node_id==0 or unspecified, this will be a broadcast NMT comm reset
+      epos_device_reset_communication(dev);
+      //try to clear fault, no error handling since it might fail
+      // if node_id==0 or unspecified, this will be executed on the gateway
       epos_device_clear_fault(dev);
     }
 
