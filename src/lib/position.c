@@ -53,6 +53,13 @@ int epos_position_start(epos_node_t* node, const epos_position_t* position) {
   int pos = epos_gear_from_angle(&node->gear, position->target_value);
   int min_pos = epos_gear_from_angle(&node->gear, position->min_value);
   int max_pos = epos_gear_from_angle(&node->gear, position->max_value);
+  //swap min,max in case of negative gear ratio
+  if(min_pos > max_pos)
+  {
+      int temp = min_pos;
+      min_pos = max_pos;
+      max_pos = temp;
+  }
   unsigned int max_error = abs(epos_gear_from_angle(&node->gear,
     position->max_error));
 
